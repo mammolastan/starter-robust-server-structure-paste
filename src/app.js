@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const pastes = require("./data/pastes-data.js");
 app.use(express.json());
-var morgan = require('morgan')
+var morgan = require("morgan");
 
 app.use("/pastes/:pasteId", (req, res, next) => {
   const { pasteId } = req.params;
@@ -15,8 +15,6 @@ app.use("/pastes/:pasteId", (req, res, next) => {
   }
 });
 
-
-
 app.get("/pastes", (req, res) => {
   res.json({ data: pastes });
 });
@@ -28,8 +26,8 @@ let lastPasteId = pastes.reduce((maxId, paste) => Math.max(maxId, paste.id), 0);
 app.post("/pastes", (req, res, next) => {
   const { data: { name, syntax, exposure, expiration, text, user_id } = {} } =
     req.body;
-    console.log("req.body")
-    console.log(req.body)
+  console.log("req.body");
+  console.log(req.body);
   if (text) {
     const newPaste = {
       id: ++lastPasteId, // Increment last ID, then assign as the current ID
@@ -50,7 +48,12 @@ app.post("/pastes", (req, res, next) => {
 
 // Not found handler
 app.use((request, response, next) => {
-  next(`A'int here - : ${request.originalUrl}`);
+  const properties = {
+    originalURL: request.originalUrl,
+    requestIP: request.originalUrl,
+    method:request.method
+  };
+  next(`Not found - : ${JSON.stringify(properties)}`);
 });
 
 // Error handler
