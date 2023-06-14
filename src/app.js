@@ -50,7 +50,7 @@ app.post("/pastes", (req, res, next) => {
 app.use((request, response, next) => {
   const properties = {
     originalURL: request.originalUrl,
-    requestIP: request.originalUrl,
+    requestIP: request.ip,
     method:request.method
   };
   next(`Not found - : ${JSON.stringify(properties)}`);
